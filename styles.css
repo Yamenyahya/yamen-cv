@@ -1,0 +1,178 @@
+/* Yamen Yahya Zakaria - CV Stylesheet */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f3f5f9;
+  color: #2b2f38;
+  line-height: 1.6;
+}
+
+/* ---------- Header ---------- */
+header {
+  background: linear-gradient(135deg, #14213d, #1f3a68);
+  color: white;
+  text-align: center;
+  padding: 40px 20px 20px;
+  animation: fadeIn 1s ease;
+}
+
+.profile-pic {
+  max-width: 150px;
+  border-radius: 50%;
+  border: 5px solid #f4a300;
+}
+
+header h1 {
+  margin: 10px 0 0;
+  font-size: 34px;
+}
+
+header p {
+  margin: 4px 0;
+  color: #cbd5e1;
+}
+
+header .job-title {
+  color: #f4a300;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* ---------- Navigation ---------- */
+nav {
+  margin-top: 20px;
+}
+
+nav a {
+  display: inline-block;
+  color: #e2e8f0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-bottom: 3px solid #1f3a68;
+}
+
+nav a:hover {
+  color: white;
+  border-bottom: 3px solid #f4a300;
+}
+
+/* ---------- Main content ---------- */
+main {
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+section {
+  background-color: white;
+  border-left: 4px solid #f4a300;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+  color: #14213d;
+  margin-top: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e3e7ee;
+}
+
+section h3 {
+  color: #14213d;
+  font-size: 17px;
+  margin: 16px 0 4px;
+}
+
+section strong {
+  color: #1f3a68;
+}
+
+section a {
+  color: #1f3a68;
+  text-decoration: none;
+}
+
+section a:hover {
+  color: #f4a300;
+  text-decoration: underline;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+
+/* ---------- Entries (education, internships, experience, projects) ---------- */
+.entry {
+  border-left: 3px solid #e3e7ee;
+  padding-left: 16px;
+  margin-bottom: 24px;
+}
+
+.entry:hover {
+  border-left: 3px solid #f4a300;
+}
+
+.entry h3 {
+  margin-top: 0;
+}
+
+.entry p {
+  margin: 4px 0;
+}
+
+.date {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1f3a68;
+  background-color: #fff4d9;
+  padding: 2px 10px;
+  border-radius: 6px;
+}
+
+.place {
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* ---------- Skill tags ---------- */
+.tags {
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.tags li {
+  display: inline-block;
+  background-color: #eef2f9;
+  color: #1f3a68;
+  font-size: 14px;
+  padding: 4px 12px;
+  margin: 0 6px 8px 0;
+  border-radius: 20px;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  padding: 10px;
+  border-top: 1px solid #e3e7ee;
+}
+
+/* ---------- Animation ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
