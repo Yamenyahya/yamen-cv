@@ -4,6 +4,16 @@
   box-sizing: border-box;
 }
 
+/* Smooth scrolling when a navigation link is clicked */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Leave space for the sticky nav so section titles are not hidden under it */
+section {
+  scroll-margin-top: 70px;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -44,21 +54,45 @@ header .job-title {
 }
 
 /* ---------- Navigation ---------- */
+/* Sticky bar: stays at the top of the screen while scrolling */
 nav {
-  margin-top: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #14213d;
+  text-align: center;
+  padding: 4px 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 nav a {
   display: inline-block;
   color: #e2e8f0;
   text-decoration: none;
-  padding: 8px 12px;
-  border-bottom: 3px solid #1f3a68;
+  padding: 10px 12px;
+  border-bottom: 3px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 nav a:hover {
   color: white;
   border-bottom: 3px solid #f4a300;
+}
+
+/* Link of the section currently on screen (set by JavaScript) */
+nav a.active {
+  color: #f4a300;
+  border-bottom: 3px solid #f4a300;
+}
+
+/* Reading progress bar along the bottom of the nav */
+.progress-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0;
+  background-color: #f4a300;
 }
 
 /* ---------- Main content ---------- */
@@ -175,4 +209,407 @@ li {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================================
+   Assignment 2 - styles for the JavaScript features
+   ====================================================== */
+
+/* Smooth colour change when switching dark / light mode */
+body,
+section,
+.tags li,
+input,
+textarea {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Generic helper class: JavaScript adds/removes it to hide elements */
+.hidden {
+  display: none !important;
+}
+
+/* ---------- Welcome banner ---------- */
+.welcome-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background-color: #f4a300;
+  color: #14213d;
+  font-weight: bold;
+  padding: 12px 20px;
+  animation: fadeIn 0.6s ease;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  color: #14213d;
+}
+
+/* ---------- Dark mode toggle ---------- */
+header {
+  position: relative;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: transparent;
+  color: white;
+  border: 2px solid #f4a300;
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.theme-toggle:hover {
+  background-color: #f4a300;
+  color: #14213d;
+}
+
+/* ---------- Section header with show/hide button ---------- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 2px solid #e3e7ee;
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 8px;
+}
+
+/* Shared button style */
+.toggle-btn,
+.details-btn,
+#add-skill-btn,
+.submit-btn {
+  background-color: #1f3a68;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.toggle-btn:hover,
+.details-btn:hover,
+#add-skill-btn:hover,
+.submit-btn:hover {
+  background-color: #f4a300;
+  color: #14213d;
+}
+
+.details-btn {
+  margin: 8px 0;
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+/* ---------- Dynamic skills ---------- */
+.add-skill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.add-skill label {
+  font-weight: bold;
+  color: #14213d;
+}
+
+.empty-note {
+  background: none !important;
+  color: #6b7280 !important;
+  font-style: italic;
+  padding-left: 0 !important;
+}
+
+/* Newly added skill tags get a small highlight */
+.tags li.new-skill {
+  background-color: #fff4d9;
+  border: 1px solid #f4a300;
+}
+
+/* ---------- Contact form ---------- */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  color: #14213d;
+  margin-bottom: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  background-color: white;
+  color: #2b2f38;
+}
+
+#skill-input {
+  width: auto;
+  flex: 1;
+  min-width: 150px;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #f4a300;
+}
+
+/* Red border on invalid fields */
+input.invalid,
+textarea.invalid {
+  border-color: #dc2626;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 13px;
+}
+
+.form-message {
+  font-weight: bold;
+  margin: 10px 0 0;
+}
+
+.form-message.success {
+  color: #15803d;
+}
+
+.form-message.fail {
+  color: #dc2626;
+}
+
+/* ======================================================
+   Dark mode - JavaScript adds the "dark-mode" class to <body>
+   ====================================================== */
+body.dark-mode {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+body.dark-mode header {
+  background: linear-gradient(135deg, #020617, #0f1e3d);
+}
+
+body.dark-mode section {
+  background-color: #1e293b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode section h2,
+body.dark-mode section h3,
+body.dark-mode .form-group label,
+body.dark-mode .add-skill label {
+  color: #f8fafc;
+}
+
+body.dark-mode section strong,
+body.dark-mode section a,
+body.dark-mode .date {
+  color: #93c5fd;
+}
+
+body.dark-mode .date {
+  background-color: #334155;
+}
+
+body.dark-mode .place,
+body.dark-mode .footer {
+  color: #94a3b8;
+}
+
+body.dark-mode .section-header,
+body.dark-mode section h2,
+body.dark-mode .entry,
+body.dark-mode .footer {
+  border-color: #334155;
+}
+
+body.dark-mode .tags li {
+  background-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark-mode .tags li.new-skill {
+  background-color: #3b2f0b;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="email"],
+body.dark-mode textarea {
+  background-color: #0f172a;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+body.dark-mode .form-message.success {
+  color: #4ade80;
+}
+
+body.dark-mode .error,
+body.dark-mode .form-message.fail {
+  color: #f87171;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+  .theme-toggle {
+    position: static;
+    display: block;
+    margin: 0 auto 15px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+body.dark-mode .entry:hover {
+  border-color: #f4a300;
+}
+
+body.dark-mode .toggle-btn,
+body.dark-mode .details-btn,
+body.dark-mode #add-skill-btn,
+body.dark-mode .submit-btn {
+  background-color: #3b5b94;
+}
+
+/* ======================================================
+   Assignment 1 feedback - smoother navigation and visuals
+   ====================================================== */
+
+/* Section icons */
+section h2 .icon {
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Sections fade/slide in as they scroll into view (JavaScript adds .visible) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Cards lift slightly on hover */
+section:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Profile picture zoom on hover */
+.profile-pic {
+  transition: transform 0.4s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.06);
+}
+
+/* Skill tags react on hover */
+.tags li {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.tags li:hover {
+  transform: translateY(-2px);
+  background-color: #fff4d9;
+}
+
+/* Back to top button */
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f4a300;
+  color: #14213d;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+}
+
+/* Dark mode versions */
+body.dark-mode nav {
+  background-color: #020617;
+}
+
+body.dark-mode .tags li:hover {
+  background-color: #475569;
+}
+
+/* Turn off motion for visitors who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Small screens: nav links scroll sideways instead of wrapping onto many lines */
+@media (max-width: 600px) {
+  nav {
+    white-space: nowrap;
+    overflow-x: auto;
+    text-align: left;
+  }
+
+  nav a {
+    padding: 10px 8px;
+  }
 }

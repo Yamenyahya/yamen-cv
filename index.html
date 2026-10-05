@@ -3,34 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive CV of Yamen Yahya Zakaria, Management of Information and Communication Technology student at AUC.">
   <title>Yamen Yahya Zakaria - CV</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- JavaScript file (defer = run after the HTML has loaded) -->
+  <script src="script.js" defer></script>
 </head>
 <body>
 
+  <!-- Welcome message banner (text is filled in by JavaScript on page load) -->
+  <div id="welcome-banner" class="welcome-banner hidden" role="status">
+    <span id="welcome-text"></span>
+    <button type="button" id="close-welcome" class="close-btn" aria-label="Close welcome message">&times;</button>
+  </div>
+
   <!-- Header: photo, name and title -->
   <header>
+    <!-- Dark / Light mode toggle button -->
+    <button type="button" id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+
     <img src="images/profile.jpg" alt="Profile picture of Yamen Yahya Zakaria" class="profile-pic">
     <h1>Yamen Yahya Zakaria</h1>
     <p class="job-title">Management of Information and Communication Technology Student</p>
     <p>New Cairo, Egypt</p>
 
-    <nav>
-      <a href="#profile">Profile</a>
-      <a href="#education">Education</a>
-      <a href="#internships">Internships</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </nav>
   </header>
+
+  <!-- Sticky navigation bar (stays at the top while scrolling) -->
+  <nav id="navbar">
+    <a href="#profile">Profile</a>
+    <a href="#education">Education</a>
+    <a href="#internships">Internships</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#certificates">Achievements</a>
+    <a href="#contact">Contact</a>
+    <!-- Reading progress bar (width is updated by JavaScript) -->
+    <div id="progress-bar" class="progress-bar"></div>
+  </nav>
+
+  <!-- Back to top button (appears after scrolling down) -->
+  <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">&#8593;</button>
 
   <main>
 
     <!-- Profile / Short Bio -->
-    <section id="profile">
-      <h2>Profile</h2>
+    <section class="reveal" id="profile">
+      <h2><span class="icon" aria-hidden="true">👤</span> Profile</h2>
       <p>
         I am a Management of Information and Communication Technology student at the
         American University in Cairo, combining business knowledge with technical skills
@@ -43,8 +63,8 @@
     </section>
 
     <!-- Education -->
-    <section id="education">
-      <h2>Education</h2>
+    <section class="reveal" id="education">
+      <h2><span class="icon" aria-hidden="true">🎓</span> Education</h2>
       <div class="entry">
         <h3>BBA in Management of Information and Communication Technology</h3>
         <p class="date">09/2022 - 05/2027</p>
@@ -56,8 +76,8 @@
     </section>
 
     <!-- Internships -->
-    <section id="internships">
-      <h2>Internships</h2>
+    <section class="reveal" id="internships">
+      <h2><span class="icon" aria-hidden="true">💼</span> Internships</h2>
 
       <div class="entry">
         <h3>Marketing Intern</h3>
@@ -84,8 +104,8 @@
     </section>
 
     <!-- Professional Experience -->
-    <section id="experience">
-      <h2>Professional Experience</h2>
+    <section class="reveal" id="experience">
+      <h2><span class="icon" aria-hidden="true">🏢</span> Professional Experience</h2>
       <div class="entry">
         <h3>Events Organizer</h3>
         <p class="date">10/2022 - 05/2025</p>
@@ -99,14 +119,19 @@
     </section>
 
     <!-- Projects -->
-    <section id="projects">
-      <h2>Projects</h2>
+    <section class="reveal" id="projects">
+      <div class="section-header">
+        <h2><span class="icon" aria-hidden="true">💻</span> Projects</h2>
+        <button type="button" class="toggle-btn" data-target="projects-content" aria-controls="projects-content" aria-expanded="true" data-label="Projects">Hide Projects</button>
+      </div>
 
+      <div id="projects-content" class="collapsible">
       <div class="entry">
         <h3>Mario Game Development</h3>
         <p class="date">09/2025 - 12/2025</p>
         <p class="place">C++ - 4-Level Game System</p>
-        <ul>
+        <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
+        <ul class="project-details hidden">
           <li>Designed and implemented a 4-level interactive Mario-style game in C++, applying loops, conditionals, and object-oriented concepts.</li>
           <li>Structured game logic, player movement, scoring, and level progression to increase difficulty across stages.</li>
           <li>Managed and documented the full project on GitHub for version control and code organization.</li>
@@ -117,17 +142,24 @@
         <h3>Market Moguls</h3>
         <p class="date">09/2024 - 12/2024</p>
         <p class="place">E-commerce Analytics and Database System</p>
-        <ul>
+        <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
+        <ul class="project-details hidden">
           <li>Designed a complete database system (ERD) for an AI-powered product research extension, integrating users, subscriptions, suppliers, and product analytics.</li>
           <li>Wrote advanced SQL queries for subscription analysis, profit-margin matching, supplier reliability, and customer segmentation (Gold, Silver, Bronze).</li>
           <li>Built interactive dashboards showing subscription revenue, customer loyalty, and annual growth trends.</li>
         </ul>
       </div>
+      </div>
     </section>
 
     <!-- Skills -->
-    <section id="skills">
-      <h2>Skills</h2>
+    <section class="reveal" id="skills">
+      <div class="section-header">
+        <h2><span class="icon" aria-hidden="true">🛠️</span> Skills</h2>
+        <button type="button" class="toggle-btn" data-target="skills-content" aria-controls="skills-content" aria-expanded="true" data-label="Skills">Hide Skills</button>
+      </div>
+
+      <div id="skills-content" class="collapsible">
 
       <h3>Programming Languages</h3>
       <ul class="tags">
@@ -178,32 +210,77 @@
         <li>Arabic (Native)</li>
         <li>English (Fluent)</li>
       </ul>
+
+      <!-- Dynamic skills: new skills typed by the user are added here -->
+      <h3>Added Skills</h3>
+      <ul id="added-skills" class="tags">
+        <li class="empty-note">No skills added yet.</li>
+      </ul>
+
+      <div class="add-skill">
+        <label for="skill-input">Enter Skill:</label>
+        <input type="text" id="skill-input" placeholder="e.g. Python" maxlength="30">
+        <button type="button" id="add-skill-btn">Add</button>
+      </div>
+      <p id="skill-message" class="form-message"></p>
+      </div>
     </section>
 
     <!-- Certifications / Achievements -->
-    <section id="certificates">
-      <h2>Certifications and Achievements</h2>
+    <section class="reveal" id="certificates">
+      <div class="section-header">
+        <h2><span class="icon" aria-hidden="true">🏆</span> Certifications and Achievements</h2>
+        <button type="button" class="toggle-btn" data-target="certificates-content" aria-controls="certificates-content" aria-expanded="true" data-label="Certifications">Hide Certifications</button>
+      </div>
+
+      <div id="certificates-content" class="collapsible">
       <div class="entry">
         <h3>Capsim Business Simulation - First Place</h3>
         <p class="date">12/2023</p>
       </div>
+      </div>
     </section>
 
     <!-- Contact Information -->
-    <section id="contact">
-      <h2>Contact</h2>
+    <section class="reveal" id="contact">
+      <h2><span class="icon" aria-hidden="true">✉️</span> Contact</h2>
       <ul>
         <li><strong>Email:</strong> yamenyahya@aucegypt.edu</li>
         <li><strong>Phone:</strong> +20 100 962 6267</li>
         <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yamen-yahya78a9553b2">linkedin.com/in/yamen-yahya</a></li>
         <li><strong>Location:</strong> New Cairo, Egypt</li>
       </ul>
+
+      <!-- Contact form (validated with JavaScript in script.js) -->
+      <h3>Send Me a Message</h3>
+      <form id="contact-form" novalidate>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name">
+          <small class="error" id="name-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+          <small class="error" id="email-error"></small>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Write your message..."></textarea>
+          <small class="error" id="message-error"></small>
+        </div>
+
+        <button type="submit" class="submit-btn">Send Message</button>
+        <p id="form-message" class="form-message"></p>
+      </form>
     </section>
 
   </main>
 
   <div class="footer">
-    <p>Yamen Yahya Zakaria - Built with HTML and CSS</p>
+    <p>Yamen Yahya Zakaria - Built with HTML, CSS and JavaScript</p>
   </div>
 
 </body>
