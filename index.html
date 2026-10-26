@@ -3,13 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive CV of Yamen Yahya Zakaria, Management of Information and Communication Technology student at AUC.">
-  <title>Yamen Yahya Zakaria - CV</title>
+  <meta name="description" content="Portfolio of Yamen Yahya Zakaria, Management of Information and Communication Technology student at AUC - projects, skills, live GitHub repositories and API-powered widgets.">
+  <meta name="author" content="Yamen Yahya Zakaria">
+  <meta name="theme-color" content="#14213d">
+  <title>Yamen Yahya Zakaria | Portfolio</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css">
-  <!-- JavaScript file (defer = run after the HTML has loaded) -->
+
+  <!-- Mark that JavaScript is on before the page draws (avoids a flash for the fade-in effect) -->
+  <script>document.documentElement.classList.add("js");</script>
+
+  <!-- JavaScript files (defer = run in this order after the HTML has loaded) -->
+  <script src="js/api.js" defer></script>
+  <script src="js/github.js" defer></script>
+  <script src="js/weather.js" defer></script>
+  <script src="js/quotes.js" defer></script>
+  <script src="js/news.js" defer></script>
   <script src="script.js" defer></script>
 </head>
 <body>
+
+  <!-- Skip link for keyboard users -->
+  <a href="#about" class="skip-link">Skip to content</a>
 
   <!-- Welcome message banner (text is filled in by JavaScript on page load) -->
   <div id="welcome-banner" class="welcome-banner hidden" role="status">
@@ -17,40 +38,71 @@
     <button type="button" id="close-welcome" class="close-btn" aria-label="Close welcome message">&times;</button>
   </div>
 
-  <!-- Header: photo, name and title -->
-  <header>
-    <!-- Dark / Light mode toggle button -->
-    <button type="button" id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
-
-    <img src="images/profile.jpg" alt="Profile picture of Yamen Yahya Zakaria" class="profile-pic">
-    <h1>Yamen Yahya Zakaria</h1>
-    <p class="job-title">Management of Information and Communication Technology Student</p>
-    <p>New Cairo, Egypt</p>
-
-  </header>
-
+  <!-- ===================== NAVIGATION ===================== -->
   <!-- Sticky navigation bar (stays at the top while scrolling) -->
-  <nav id="navbar">
-    <a href="#profile">Profile</a>
-    <a href="#education">Education</a>
-    <a href="#internships">Internships</a>
-    <a href="#experience">Experience</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#certificates">Achievements</a>
-    <a href="#contact">Contact</a>
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#home" class="brand" aria-label="Yamen Yahya - back to top">Yamen<span>.</span></a>
+
+      <button type="button" id="menu-toggle" class="menu-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div id="nav-links" class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#live">Live Data</a>
+        <a href="#contact">Contact</a>
+        <!-- Dark / Light mode toggle button -->
+        <button type="button" id="theme-toggle" class="theme-toggle">🌙 Dark Mode</button>
+      </div>
+    </div>
     <!-- Reading progress bar (width is updated by JavaScript) -->
     <div id="progress-bar" class="progress-bar"></div>
   </nav>
+
+  <!-- ===================== HOME (HERO) ===================== -->
+  <header id="home" class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="hero-hello">Hello, I'm</p>
+        <h1>Yamen Yahya Zakaria</h1>
+        <p class="job-title">Management of Information and Communication Technology Student</p>
+        <p class="hero-summary">
+          Business student at the American University in Cairo who enjoys data, databases
+          and building practical software. Sales &amp; marketing intern at NBCC.
+        </p>
+        <p class="hero-location">📍 New Cairo, Egypt</p>
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">View My Projects</a>
+          <a href="#contact" class="btn btn-outline">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <img src="images/profile.jpg" alt="Profile picture of Yamen Yahya Zakaria" class="profile-pic" width="400" height="400">
+      </div>
+    </div>
+
+    <!-- Quick facts strip -->
+    <ul class="hero-stats">
+      <li><strong>3.2</strong><span>GPA at AUC</span></li>
+      <li><strong>2</strong><span>Internships at NBCC</span></li>
+      <li><strong id="stat-repos">–</strong><span>Public GitHub repos</span></li>
+      <li><strong>1st</strong><span>Place, Capsim Simulation</span></li>
+    </ul>
+  </header>
 
   <!-- Back to top button (appears after scrolling down) -->
   <button type="button" id="back-to-top" class="back-to-top" aria-label="Back to top">&#8593;</button>
 
   <main>
 
-    <!-- Profile / Short Bio -->
-    <section class="reveal" id="profile">
-      <h2><span class="icon" aria-hidden="true">👤</span> Profile</h2>
+    <!-- ===================== ABOUT ME ===================== -->
+    <section class="reveal" id="about">
+      <h2><span class="icon" aria-hidden="true">👤</span> About Me</h2>
       <p>
         I am a Management of Information and Communication Technology student at the
         American University in Cairo, combining business knowledge with technical skills
@@ -60,11 +112,9 @@
         insights, building practical software projects, and working in fast-paced team
         environments where organization and communication matter.
       </p>
-    </section>
 
-    <!-- Education -->
-    <section class="reveal" id="education">
-      <h2><span class="icon" aria-hidden="true">🎓</span> Education</h2>
+      <!-- Education -->
+      <h3 class="sub-heading" id="education"><span class="icon" aria-hidden="true">🎓</span> Education</h3>
       <div class="entry">
         <h3>BBA in Management of Information and Communication Technology</h3>
         <p class="date">09/2022 - 05/2027</p>
@@ -75,50 +125,54 @@
       </div>
     </section>
 
-    <!-- Internships -->
-    <section class="reveal" id="internships">
-      <h2><span class="icon" aria-hidden="true">💼</span> Internships</h2>
-
-      <div class="entry">
-        <h3>Marketing Intern</h3>
-        <p class="date">07/2026 - 08/2026</p>
-        <p class="place">NBCC - Marketing Department</p>
-        <ul>
-          <li>Learned about the company's products, customers, competitors, social media, and brand positioning.</li>
-          <li>Conducted competitor research and a SWOT analysis.</li>
-          <li>Worked with sales and Nielsen data to understand market trends and find useful business insights.</li>
-          <li>Learned how a marketing campaign is developed, including target audience, campaign idea, media channels, budget, and KPIs.</li>
-        </ul>
-      </div>
-
-      <div class="entry">
-        <h3>Sales Intern</h3>
-        <p class="date">06/2026 - 07/2026</p>
-        <p class="place">NBCC - Sales Department</p>
-        <ul>
-          <li>Learned about sales operations, sales planning, pricing, KPIs, customer management, and how products reach the market.</li>
-          <li>Gained experience with Excel and learned how SAP and SalesBuzz are used in sales operations.</li>
-          <li>Joined field visits with the sales team to retail stores, wholesalers, and hypermarkets, building practical experience in customer communication, merchandising, product availability, and order processing.</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Professional Experience -->
+    <!-- ===================== EXPERIENCE ===================== -->
     <section class="reveal" id="experience">
-      <h2><span class="icon" aria-hidden="true">🏢</span> Professional Experience</h2>
-      <div class="entry">
-        <h3>Events Organizer</h3>
-        <p class="date">10/2022 - 05/2025</p>
-        <p class="place">Student Union - Cairo, Egypt</p>
-        <ul>
-          <li>Managed ticket sales and attendee coordination for large-scale university concerts and events.</li>
-          <li>Coordinated on-ground logistics and crowd organization.</li>
-          <li>Worked in high-pressure environments to ensure smooth execution.</li>
-        </ul>
+      <h2><span class="icon" aria-hidden="true">💼</span> Experience</h2>
+
+      <!-- Internships -->
+      <h3 class="sub-heading" id="internships">Internships</h3>
+      <div class="timeline">
+        <div class="entry">
+          <h3>Marketing Intern</h3>
+          <p class="date">07/2026 - 08/2026</p>
+          <p class="place">NBCC - Marketing Department</p>
+          <ul>
+            <li>Learned about the company's products, customers, competitors, social media, and brand positioning.</li>
+            <li>Conducted competitor research and a SWOT analysis.</li>
+            <li>Worked with sales and Nielsen data to understand market trends and find useful business insights.</li>
+            <li>Learned how a marketing campaign is developed, including target audience, campaign idea, media channels, budget, and KPIs.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <h3>Sales Intern</h3>
+          <p class="date">06/2026 - 07/2026</p>
+          <p class="place">NBCC - Sales Department</p>
+          <ul>
+            <li>Learned about sales operations, sales planning, pricing, KPIs, customer management, and how products reach the market.</li>
+            <li>Gained experience with Excel and learned how SAP and SalesBuzz are used in sales operations.</li>
+            <li>Joined field visits with the sales team to retail stores, wholesalers, and hypermarkets, building practical experience in customer communication, merchandising, product availability, and order processing.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Professional Experience -->
+      <h3 class="sub-heading">Professional Experience</h3>
+      <div class="timeline">
+        <div class="entry">
+          <h3>Events Organizer</h3>
+          <p class="date">10/2022 - 05/2025</p>
+          <p class="place">Student Union - Cairo, Egypt</p>
+          <ul>
+            <li>Managed ticket sales and attendee coordination for large-scale university concerts and events.</li>
+            <li>Coordinated on-ground logistics and crowd organization.</li>
+            <li>Worked in high-pressure environments to ensure smooth execution.</li>
+          </ul>
+        </div>
       </div>
     </section>
 
-    <!-- Projects -->
+    <!-- ===================== PROJECTS ===================== -->
     <section class="reveal" id="projects">
       <div class="section-header">
         <h2><span class="icon" aria-hidden="true">💻</span> Projects</h2>
@@ -126,33 +180,77 @@
       </div>
 
       <div id="projects-content" class="collapsible">
-      <div class="entry">
-        <h3>Mario Game Development</h3>
-        <p class="date">09/2025 - 12/2025</p>
-        <p class="place">C++ - 4-Level Game System</p>
-        <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
-        <ul class="project-details hidden">
-          <li>Designed and implemented a 4-level interactive Mario-style game in C++, applying loops, conditionals, and object-oriented concepts.</li>
-          <li>Structured game logic, player movement, scoring, and level progression to increase difficulty across stages.</li>
-          <li>Managed and documented the full project on GitHub for version control and code organization.</li>
-        </ul>
-      </div>
+        <h3 class="sub-heading">Featured Projects</h3>
+        <div class="project-grid">
+          <article class="entry project-card">
+            <h3>Mario Game Development</h3>
+            <p class="date">09/2025 - 12/2025</p>
+            <p class="place">C++ - 4-Level Game System</p>
+            <ul class="tags small-tags"><li>C++</li><li>OOP</li><li>Git</li></ul>
+            <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
+            <ul class="project-details hidden">
+              <li>Designed and implemented a 4-level interactive Mario-style game in C++, applying loops, conditionals, and object-oriented concepts.</li>
+              <li>Structured game logic, player movement, scoring, and level progression to increase difficulty across stages.</li>
+              <li>Managed and documented the full project on GitHub for version control and code organization.</li>
+            </ul>
+          </article>
 
-      <div class="entry">
-        <h3>Market Moguls</h3>
-        <p class="date">09/2024 - 12/2024</p>
-        <p class="place">E-commerce Analytics and Database System</p>
-        <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
-        <ul class="project-details hidden">
-          <li>Designed a complete database system (ERD) for an AI-powered product research extension, integrating users, subscriptions, suppliers, and product analytics.</li>
-          <li>Wrote advanced SQL queries for subscription analysis, profit-margin matching, supplier reliability, and customer segmentation (Gold, Silver, Bronze).</li>
-          <li>Built interactive dashboards showing subscription revenue, customer loyalty, and annual growth trends.</li>
-        </ul>
-      </div>
+          <article class="entry project-card">
+            <h3>Market Moguls</h3>
+            <p class="date">09/2024 - 12/2024</p>
+            <p class="place">E-commerce Analytics and Database System</p>
+            <ul class="tags small-tags"><li>SQL</li><li>ERD</li><li>Dashboards</li></ul>
+            <button type="button" class="details-btn" aria-expanded="false">Show Details</button>
+            <ul class="project-details hidden">
+              <li>Designed a complete database system (ERD) for an AI-powered product research extension, integrating users, subscriptions, suppliers, and product analytics.</li>
+              <li>Wrote advanced SQL queries for subscription analysis, profit-margin matching, supplier reliability, and customer segmentation (Gold, Silver, Bronze).</li>
+              <li>Built interactive dashboards showing subscription revenue, customer loyalty, and annual growth trends.</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- ===== API 1: GitHub repositories (filled by js/github.js) ===== -->
+        <div class="api-block" id="github-widget">
+          <div class="api-head">
+            <h3 class="sub-heading">
+              Live from GitHub
+              <span class="api-badge">GitHub REST API</span>
+            </h3>
+            <button type="button" class="refresh-btn" id="github-refresh" aria-label="Reload GitHub repositories">↻ Refresh</button>
+          </div>
+
+          <!-- GitHub profile summary -->
+          <div id="github-profile" class="github-profile hidden"></div>
+
+          <!-- Controls: search, language filter and sort -->
+          <div class="repo-controls" id="repo-controls">
+            <label class="visually-hidden" for="repo-search">Search repositories</label>
+            <input type="search" id="repo-search" placeholder="Search repositories..." autocomplete="off">
+
+            <label class="visually-hidden" for="repo-language">Filter by language</label>
+            <select id="repo-language">
+              <option value="all">All languages</option>
+            </select>
+
+            <label class="visually-hidden" for="repo-sort">Sort repositories</label>
+            <select id="repo-sort">
+              <option value="updated">Recently updated</option>
+              <option value="stars">Most stars</option>
+              <option value="name">Name (A-Z)</option>
+            </select>
+          </div>
+
+          <!-- Loading / error / empty messages appear here -->
+          <div id="github-status" class="api-status" role="status" aria-live="polite"></div>
+
+          <!-- Repository cards are created here -->
+          <div id="repo-list" class="repo-grid" aria-live="polite"></div>
+          <p id="github-updated" class="api-updated"></p>
+        </div>
       </div>
     </section>
 
-    <!-- Skills -->
+    <!-- ===================== SKILLS ===================== -->
     <section class="reveal" id="skills">
       <div class="section-header">
         <h2><span class="icon" aria-hidden="true">🛠️</span> Skills</h2>
@@ -160,73 +258,100 @@
       </div>
 
       <div id="skills-content" class="collapsible">
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3>Programming Languages</h3>
+            <ul class="tags">
+              <li>R</li>
+              <li>C++</li>
+              <li>SQL</li>
+            </ul>
+          </div>
 
-      <h3>Programming Languages</h3>
-      <ul class="tags">
-        <li>R</li>
-        <li>C++</li>
-        <li>SQL</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Data and Analytics</h3>
+            <ul class="tags">
+              <li>Power BI</li>
+              <li>Market Research</li>
+              <li>Nielsen Data</li>
+            </ul>
+          </div>
 
-      <h3>Data and Analytics</h3>
-      <ul class="tags">
-        <li>Power BI</li>
-        <li>Market Research</li>
-        <li>Nielsen Data</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Business Systems</h3>
+            <ul class="tags">
+              <li>SAP</li>
+              <li>SalesBuzz</li>
+              <li>CRM</li>
+            </ul>
+          </div>
 
-      <h3>Business Systems</h3>
-      <ul class="tags">
-        <li>SAP</li>
-        <li>SalesBuzz</li>
-        <li>CRM</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Microsoft Office</h3>
+            <ul class="tags">
+              <li>Excel</li>
+              <li>PowerPoint</li>
+              <li>Word</li>
+              <li>Access</li>
+            </ul>
+          </div>
 
-      <h3>Microsoft Office</h3>
-      <ul class="tags">
-        <li>Excel</li>
-        <li>PowerPoint</li>
-        <li>Word</li>
-        <li>Access</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Business Knowledge</h3>
+            <ul class="tags">
+              <li>Financial Analysis</li>
+              <li>Operations Management</li>
+              <li>Marketing Principles</li>
+            </ul>
+          </div>
 
-      <h3>Business Knowledge</h3>
-      <ul class="tags">
-        <li>Financial Analysis</li>
-        <li>Operations Management</li>
-        <li>Marketing Principles</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Professional Skills</h3>
+            <ul class="tags">
+              <li>Communication</li>
+              <li>Problem Solving</li>
+              <li>Attention to Detail</li>
+              <li>Teamwork</li>
+            </ul>
+          </div>
 
-      <h3>Professional Skills</h3>
-      <ul class="tags">
-        <li>Communication</li>
-        <li>Problem Solving</li>
-        <li>Attention to Detail</li>
-        <li>Teamwork</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Web Development</h3>
+            <ul class="tags">
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>JavaScript</li>
+              <li>REST APIs</li>
+            </ul>
+          </div>
 
-      <h3>Languages</h3>
-      <ul class="tags">
-        <li>Arabic (Native)</li>
-        <li>English (Fluent)</li>
-      </ul>
+          <div class="skill-group">
+            <h3>Languages</h3>
+            <ul class="tags">
+              <li>Arabic (Native)</li>
+              <li>English (Fluent)</li>
+            </ul>
+          </div>
+        </div>
 
-      <!-- Dynamic skills: new skills typed by the user are added here -->
-      <h3>Added Skills</h3>
-      <ul id="added-skills" class="tags">
-        <li class="empty-note">No skills added yet.</li>
-      </ul>
+        <!-- Dynamic skills: new skills typed by the user are added here -->
+        <div class="skill-group added-group">
+          <h3>Added Skills</h3>
+          <ul id="added-skills" class="tags">
+            <li class="empty-note">No skills added yet.</li>
+          </ul>
 
-      <div class="add-skill">
-        <label for="skill-input">Enter Skill:</label>
-        <input type="text" id="skill-input" placeholder="e.g. Python" maxlength="30">
-        <button type="button" id="add-skill-btn">Add</button>
-      </div>
-      <p id="skill-message" class="form-message"></p>
+          <div class="add-skill">
+            <label for="skill-input">Enter Skill:</label>
+            <input type="text" id="skill-input" placeholder="e.g. Python" maxlength="30">
+            <button type="button" id="add-skill-btn">Add</button>
+          </div>
+          <p id="skill-message" class="form-message" role="status"></p>
+        </div>
       </div>
     </section>
 
-    <!-- Certifications / Achievements -->
+    <!-- ===================== CERTIFICATIONS / ACHIEVEMENTS ===================== -->
     <section class="reveal" id="certificates">
       <div class="section-header">
         <h2><span class="icon" aria-hidden="true">🏆</span> Certifications and Achievements</h2>
@@ -234,54 +359,147 @@
       </div>
 
       <div id="certificates-content" class="collapsible">
-      <div class="entry">
-        <h3>Capsim Business Simulation - First Place</h3>
-        <p class="date">12/2023</p>
-      </div>
+        <div class="entry">
+          <h3>Capsim Business Simulation - First Place</h3>
+          <p class="date">12/2023</p>
+        </div>
       </div>
     </section>
 
-    <!-- Contact Information -->
+    <!-- ===================== LIVE DATA (API WIDGETS) ===================== -->
+    <section class="reveal" id="live">
+      <h2><span class="icon" aria-hidden="true">📡</span> Live Data</h2>
+      <p class="section-intro">
+        These widgets load real-time data from free public APIs using JavaScript
+        <code>fetch</code> with <code>async/await</code>.
+      </p>
+
+      <div class="live-grid">
+
+        <!-- ===== API 2: Weather (filled by js/weather.js) ===== -->
+        <article class="widget" id="weather-widget">
+          <div class="widget-head">
+            <h3>🌤️ Weather</h3>
+            <span class="api-badge">Open-Meteo API</span>
+          </div>
+
+          <form id="weather-form" class="weather-form" novalidate>
+            <label class="visually-hidden" for="city-select">Choose a city</label>
+            <select id="city-select">
+              <option value="Cairo">Cairo</option>
+              <option value="Alexandria">Alexandria</option>
+              <option value="Giza">Giza</option>
+              <option value="Dubai">Dubai</option>
+              <option value="London">London</option>
+              <option value="New York">New York</option>
+              <option value="Tokyo">Tokyo</option>
+            </select>
+            <label class="visually-hidden" for="city-input">Or type any city</label>
+            <input type="text" id="city-input" placeholder="Or type any city..." maxlength="60" autocomplete="off">
+            <button type="submit" class="small-btn">Search</button>
+          </form>
+
+          <div id="weather-status" class="api-status" role="status" aria-live="polite"></div>
+          <div id="weather-result" class="weather-result hidden" aria-live="polite"></div>
+        </article>
+
+        <!-- ===== API 3: Quotes (filled by js/quotes.js) ===== -->
+        <article class="widget quote-widget" id="quote-widget">
+          <div class="widget-head">
+            <h3>💡 Motivational Quote</h3>
+            <span class="api-badge">DummyJSON Quotes API</span>
+          </div>
+
+          <div id="quote-status" class="api-status" role="status" aria-live="polite"></div>
+          <blockquote id="quote-box" class="quote-box hidden" aria-live="polite">
+            <p id="quote-text"></p>
+            <footer id="quote-author"></footer>
+          </blockquote>
+
+          <div class="widget-actions">
+            <button type="button" id="new-quote-btn" class="small-btn">✨ New Quote</button>
+            <button type="button" id="copy-quote-btn" class="small-btn ghost" disabled>Copy</button>
+          </div>
+        </article>
+
+        <!-- ===== API 4: Tech news (filled by js/news.js) ===== -->
+        <article class="widget news-widget" id="news-widget">
+          <div class="widget-head">
+            <h3>📰 Latest Tech Headlines</h3>
+            <span class="api-badge">Hacker News API</span>
+          </div>
+
+          <div class="news-tabs" role="tablist" aria-label="News category">
+            <button type="button" class="news-tab active" role="tab" aria-selected="true" data-category="top">Top Stories</button>
+            <button type="button" class="news-tab" role="tab" aria-selected="false" data-category="ai">AI</button>
+            <button type="button" class="news-tab" role="tab" aria-selected="false" data-category="data">Data</button>
+            <button type="button" class="news-tab" role="tab" aria-selected="false" data-category="web">Web Dev</button>
+          </div>
+
+          <div id="news-status" class="api-status" role="status" aria-live="polite"></div>
+          <ol id="news-list" class="news-list" aria-live="polite"></ol>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
     <section class="reveal" id="contact">
       <h2><span class="icon" aria-hidden="true">✉️</span> Contact</h2>
-      <ul>
-        <li><strong>Email:</strong> yamenyahya@aucegypt.edu</li>
-        <li><strong>Phone:</strong> +20 100 962 6267</li>
-        <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yamen-yahya78a9553b2">linkedin.com/in/yamen-yahya</a></li>
-        <li><strong>Location:</strong> New Cairo, Egypt</li>
-      </ul>
 
-      <!-- Contact form (validated with JavaScript in script.js) -->
-      <h3>Send Me a Message</h3>
-      <form id="contact-form" novalidate>
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" placeholder="Your name">
-          <small class="error" id="name-error"></small>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>I'm open to internships, graduate roles and project collaborations. Feel free to reach out!</p>
+          <ul class="contact-list">
+            <li><strong>Email:</strong> <a href="mailto:yamenyahya@aucegypt.edu">yamenyahya@aucegypt.edu</a></li>
+            <li><strong>Phone:</strong> <a href="tel:+201009626267">+20 100 962 6267</a></li>
+            <li><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yamen-yahya78a9553b2" target="_blank" rel="noopener">linkedin.com/in/yamen-yahya</a></li>
+            <li><strong>GitHub:</strong> <a href="https://github.com/yamenyahya" target="_blank" rel="noopener">github.com/yamenyahya</a></li>
+            <li><strong>Location:</strong> New Cairo, Egypt</li>
+          </ul>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="you@example.com">
-          <small class="error" id="email-error"></small>
-        </div>
+        <!-- Contact form (validated with JavaScript in script.js) -->
+        <div class="contact-form-box">
+          <h3>Send Me a Message</h3>
+          <form id="contact-form" novalidate>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" autocomplete="name">
+              <small class="error" id="name-error"></small>
+            </div>
 
-        <div class="form-group">
-          <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" placeholder="Write your message..."></textarea>
-          <small class="error" id="message-error"></small>
-        </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+              <small class="error" id="email-error"></small>
+            </div>
 
-        <button type="submit" class="submit-btn">Send Message</button>
-        <p id="form-message" class="form-message"></p>
-      </form>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" maxlength="1000" placeholder="Write your message..."></textarea>
+              <small class="char-count" id="char-count">0 / 1000</small>
+              <small class="error" id="message-error"></small>
+            </div>
+
+            <button type="submit" class="submit-btn">Send Message</button>
+            <p id="form-message" class="form-message" role="status"></p>
+          </form>
+        </div>
+      </div>
     </section>
 
   </main>
 
-  <div class="footer">
-    <p>Yamen Yahya Zakaria - Built with HTML, CSS and JavaScript</p>
-  </div>
+  <footer class="footer">
+    <p>&copy; <span id="year">2026</span> Yamen Yahya Zakaria - Built with HTML, CSS and JavaScript</p>
+    <p class="footer-apis">
+      Live data from
+      <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub</a>,
+      <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a>,
+      <a href="https://dummyjson.com/docs/quotes" target="_blank" rel="noopener">DummyJSON</a> and
+      <a href="https://hn.algolia.com/api" target="_blank" rel="noopener">Hacker News</a>
+    </p>
+  </footer>
 
 </body>
 </html>

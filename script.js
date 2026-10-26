@@ -1,8 +1,16 @@
 /* =========================================================
-   Yamen Yahya Zakaria - CV Webpage
-   Assignment 2: Interactive features with JavaScript
+   Yamen Yahya Zakaria - Portfolio Website
+   Assignment 3: Portfolio with API integration
 
-   Features in this file:
+   This is the main file. It starts every feature when the
+   page loads. The API widgets live in separate files:
+     js/api.js      shared fetch / loading / error helpers
+     js/github.js   API 1 - GitHub repositories
+     js/weather.js  API 2 - Open-Meteo weather
+     js/quotes.js   API 3 - DummyJSON random quotes
+     js/news.js     API 4 - Hacker News tech headlines
+
+   Features kept from Assignment 2 (this file):
      1. Welcome message on page load
      2. Dark mode / Light mode toggle
      3. Show / Hide sections (Projects, Skills, Certifications)
@@ -11,10 +19,18 @@
      6. Contact form with validation
      7. Scroll effects: active nav link, progress bar,
         back-to-top button and sections that fade in
+   New in Assignment 3:
+     8. Mobile menu (hamburger button)
    ========================================================= */
+
+"use strict";
+
+// Tells the CSS that JavaScript is running (used for the fade-in effect)
+document.documentElement.classList.add("js");
 
 // Run all setup code once the HTML page has finished loading
 document.addEventListener("DOMContentLoaded", function () {
+  // Assignment 2 features
   showWelcomeMessage();
   setupThemeToggle();
   setupSectionToggles();
@@ -22,6 +38,17 @@ document.addEventListener("DOMContentLoaded", function () {
   setupDynamicSkills();
   setupContactForm();
   setupScrollEffects();
+
+  // Assignment 3 features
+  setupMobileMenu();
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // API widgets - each one loads its data independently,
+  // so if one API is down the others still work.
+  setupGitHub();
+  setupWeather();
+  setupQuotes();
+  setupNews();
 });
 
 
@@ -46,7 +73,7 @@ function showWelcomeMessage() {
     greeting = "Good evening";
   }
 
-  text.textContent = greeting + "! Welcome to my portfolio page 👋";
+  text.textContent = greeting + "! Welcome to my portfolio 👋";
   banner.classList.remove("hidden");
 
   // Let the visitor close the banner
@@ -65,12 +92,15 @@ function showWelcomeMessage() {
    2. DARK MODE / LIGHT MODE TOGGLE
    Adds or removes the "dark-mode" class on <body>.
    The choice is saved so it stays the same on the next visit.
+   If nothing is saved, the visitor's system setting is used.
    --------------------------------------------------------- */
 function setupThemeToggle() {
   const toggleButton = document.getElementById("theme-toggle");
+  const savedTheme = loadSetting("theme");
+  const systemPrefersDark = window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  // Load the saved theme (if any)
-  if (loadSetting("theme") === "dark") {
+  if (savedTheme === "dark" || (savedTheme === null && systemPrefersDark)) {
     document.body.classList.add("dark-mode");
   }
   updateThemeButton(toggleButton);
@@ -87,11 +117,9 @@ function setupThemeToggle() {
 
 // Changes the button text to match the current theme
 function updateThemeButton(button) {
-  if (document.body.classList.contains("dark-mode")) {
-    button.textContent = "☀️ Light Mode";
-  } else {
-    button.textContent = "🌙 Dark Mode";
-  }
+  const isDark = document.body.classList.contains("dark-mode");
+  button.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+  button.setAttribute("aria-pressed", isDark);
 }
 
 // Helpers for saving settings in the browser.
@@ -128,15 +156,11 @@ function setupSectionToggles() {
 
       // Toggle the hidden class, then update the button text
       content.classList.toggle("hidden");
+      const isHidden = content.classList.contains("hidden");
 
       // Tell screen readers whether the section is open
-      button.setAttribute("aria-expanded", !content.classList.contains("hidden"));
-
-      if (content.classList.contains("hidden")) {
-        button.textContent = "Show " + label;
-      } else {
-        button.textContent = "Hide " + label;
-      }
+      button.setAttribute("aria-expanded", !isHidden);
+      button.textContent = (isHidden ? "Show " : "Hide ") + label;
     });
   });
 }
@@ -155,13 +179,10 @@ function setupProjectDetails() {
       // The details list is the element right after the button
       const details = button.nextElementSibling;
       details.classList.toggle("hidden");
-      button.setAttribute("aria-expanded", !details.classList.contains("hidden"));
+      const isHidden = details.classList.contains("hidden");
 
-      if (details.classList.contains("hidden")) {
-        button.textContent = "Show Details";
-      } else {
-        button.textContent = "Hide Details";
-      }
+      button.setAttribute("aria-expanded", !isHidden);
+      button.textContent = isHidden ? "Show Details" : "Hide Details";
     });
   });
 }
@@ -239,10 +260,16 @@ function skillExists(skill) {
 /* ---------------------------------------------------------
    6. CONTACT FORM WITH VALIDATION
    Checks that all fields are filled in and that the email
-   has a valid format, then shows an error or success message.
+   has a valid format. When everything is valid, the visitor's
+   email app opens with the message already written, ready
+   to send to me.
    --------------------------------------------------------- */
+const MY_EMAIL = "yamenyahya@aucegypt.edu";
+
 function setupContactForm() {
   const form = document.getElementById("contact-form");
+  const messageInput = document.getElementById("message");
+  const charCount = document.getElementById("char-count");
 
   form.addEventListener("submit", function (event) {
     // Stop the page from reloading
@@ -250,7 +277,6 @@ function setupContactForm() {
 
     const nameInput = document.getElementById("name");
     const emailInput = document.getElementById("email");
-    const messageInput = document.getElementById("message");
     const formMessage = document.getElementById("form-message");
 
     // Validate every field (each function returns true or false)
@@ -259,9 +285,20 @@ function setupContactForm() {
     const messageOk = validateRequired(messageInput, "message-error", "Please write a message.");
 
     if (nameOk && emailOk && messageOk) {
-      const firstName = nameInput.value.trim().split(" ")[0];
-      showMessage(formMessage, "Thank you, " + firstName + "! Your message has been sent successfully.", "success");
+      const name = nameInput.value.trim();
+      const firstName = name.split(" ")[0];
+
+      // Build a mailto: link with the subject and body filled in
+      const subject = "Portfolio message from " + name;
+      const body = messageInput.value.trim() + "\n\n---\nFrom: " + name + " (" + emailInput.value.trim() + ")";
+      window.location.href = "mailto:" + MY_EMAIL +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+
+      showMessage(formMessage, "Thank you, " + firstName +
+        "! Your email app is opening with your message ready - just press Send.", "success");
       form.reset();
+      charCount.textContent = "0 / " + messageInput.maxLength;
     } else {
       showMessage(formMessage, "Please fix the errors above and try again.", "fail");
     }
@@ -273,6 +310,11 @@ function setupContactForm() {
     field.addEventListener("input", function () {
       clearError(field, field.id + "-error");
     });
+  });
+
+  // Live character counter for the message box
+  messageInput.addEventListener("input", function () {
+    charCount.textContent = messageInput.value.length + " / " + messageInput.maxLength;
   });
 }
 
@@ -308,12 +350,14 @@ function validateEmail(field) {
 // Shows an error under a field and gives it a red border
 function setError(field, errorId, text) {
   field.classList.add("invalid");
+  field.setAttribute("aria-invalid", "true");
   document.getElementById(errorId).textContent = text;
 }
 
 // Removes the error from a field
 function clearError(field, errorId) {
   field.classList.remove("invalid");
+  field.removeAttribute("aria-invalid");
   document.getElementById(errorId).textContent = "";
 }
 
@@ -327,10 +371,20 @@ function clearError(field, errorId) {
    - Fades each section in when it scrolls into view
    --------------------------------------------------------- */
 function setupScrollEffects() {
-  const sections = document.querySelectorAll("main section");
-  const navLinks = document.querySelectorAll("#navbar a");
+  const navbar = document.getElementById("navbar");
+  const navLinks = document.querySelectorAll("#navbar a[href^='#']");
   const progressBar = document.getElementById("progress-bar");
   const backToTop = document.getElementById("back-to-top");
+  const revealSections = document.querySelectorAll(".reveal");
+
+  // Only the sections that have a link in the menu
+  const navSections = [];
+  navLinks.forEach(function (link) {
+    const section = document.querySelector(link.getAttribute("href"));
+    if (section && !navSections.includes(section)) {
+      navSections.push(section);
+    }
+  });
 
   // Runs every time the page is scrolled
   function onScroll() {
@@ -342,48 +396,50 @@ function setupScrollEffects() {
     progressBar.style.width = percent + "%";
 
     // --- Back to top button: show after 400px of scrolling ---
-    if (scrollTop > 400) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
-    }
+    backToTop.classList.toggle("show", scrollTop > 400);
+
+    // --- Shadow under the nav once the page has scrolled ---
+    navbar.classList.toggle("scrolled", scrollTop > 10);
 
     // --- Active link: the last section whose top has passed the nav bar ---
-    let currentId = "";
-    sections.forEach(function (section) {
-      if (section.getBoundingClientRect().top <= 120) {
+    let currentId = navSections[0].id;
+    navSections.forEach(function (section) {
+      if (section.getBoundingClientRect().top <= navbar.offsetHeight + 60) {
         currentId = section.id;
       }
     });
 
     // At the very bottom of the page, highlight the last section (Contact)
     if (window.innerHeight + scrollTop >= document.documentElement.scrollHeight - 5) {
-      currentId = sections[sections.length - 1].id;
+      currentId = navSections[navSections.length - 1].id;
     }
 
     navLinks.forEach(function (link) {
-      if (link.getAttribute("href") === "#" + currentId) {
-        link.classList.add("active");
+      const isActive = link.getAttribute("href") === "#" + currentId && !link.classList.contains("brand");
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "true");
       } else {
-        link.classList.remove("active");
+        link.removeAttribute("aria-current");
       }
     });
 
     // --- Reveal sections that have entered the screen ---
-    sections.forEach(function (section) {
+    revealSections.forEach(function (section) {
       if (section.getBoundingClientRect().top < window.innerHeight - 60) {
         section.classList.add("visible");
       }
     });
   }
 
-  window.addEventListener("scroll", onScroll);
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
   onScroll(); // run once on load so the first sections appear straight away
 
-  // Smooth scroll for nav links: stop just below the sticky nav bar.
+  // Smooth scroll for nav links (and the hero buttons): stop just below the sticky nav.
   // offsetTop ignores the fade-in animation, so the position is always exact.
-  const navbar = document.getElementById("navbar");
-  navLinks.forEach(function (link) {
+  const scrollLinks = document.querySelectorAll("a[href^='#']:not(.skip-link)");
+  scrollLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const target = document.querySelector(link.getAttribute("href"));
       if (!target) {
@@ -391,10 +447,13 @@ function setupScrollEffects() {
       }
       event.preventDefault();
       target.classList.add("visible");
-      window.scrollTo({
-        top: target.offsetTop - navbar.offsetHeight - 15,
-        behavior: "smooth"
-      });
+
+      const top = target.id === "home" ? 0 : target.offsetTop - navbar.offsetHeight - 15;
+      window.scrollTo({ top: top, behavior: "smooth" });
+
+      // Update the address bar without jumping
+      history.replaceState(null, "", link.getAttribute("href"));
+      closeMobileMenu();
     });
   });
 
@@ -402,6 +461,40 @@ function setupScrollEffects() {
   backToTop.addEventListener("click", function () {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+}
+
+
+/* ---------------------------------------------------------
+   8. MOBILE MENU
+   On small screens the links are hidden behind a
+   "hamburger" button that opens and closes the menu.
+   --------------------------------------------------------- */
+function setupMobileMenu() {
+  const menuButton = document.getElementById("menu-toggle");
+  const links = document.getElementById("nav-links");
+
+  menuButton.addEventListener("click", function () {
+    const isOpen = links.classList.toggle("open");
+    menuButton.classList.toggle("open", isOpen);
+    menuButton.setAttribute("aria-expanded", isOpen);
+    menuButton.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+  });
+
+  // Close the menu with the Escape key
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeMobileMenu();
+    }
+  });
+}
+
+function closeMobileMenu() {
+  const menuButton = document.getElementById("menu-toggle");
+  const links = document.getElementById("nav-links");
+  links.classList.remove("open");
+  menuButton.classList.remove("open");
+  menuButton.setAttribute("aria-expanded", "false");
+  menuButton.setAttribute("aria-label", "Open menu");
 }
 
 
