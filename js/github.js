@@ -31,6 +31,11 @@ const LANGUAGE_COLORS = {
   "PLpgSQL": "#336790"
 };
 
+// My own descriptions, used when a repository has no description on GitHub
+const REPO_DESCRIPTIONS = {
+  "yamen-cv": "Personal portfolio website with live GitHub, weather, quotes and tech-news APIs."
+};
+
 // All repositories returned by the API (used again when filtering/sorting)
 let allRepos = [];
 
@@ -176,7 +181,7 @@ function renderRepos() {
 
   // 1. Filter
   let repos = allRepos.filter(function (repo) {
-    const text = (repo.name + " " + (repo.description || "")).toLowerCase();
+    const text = (repo.name + " " + (repo.description || REPO_DESCRIPTIONS[repo.name.toLowerCase()] || "")).toLowerCase();
     const matchesSearch = text.includes(search);
     const matchesLanguage = language === "all" || repo.language === language;
     return matchesSearch && matchesLanguage;
@@ -226,7 +231,10 @@ function createRepoCard(repo) {
     title.append(el("span", "repo-label", "Fork"));
   }
 
-  const description = el("p", "repo-desc", repo.description || "No description provided.");
+  const descriptionText = repo.description ||
+    REPO_DESCRIPTIONS[repo.name.toLowerCase()] ||
+    "No description provided.";
+  const description = el("p", "repo-desc", descriptionText);
 
   // Meta row: language, stars, forks, updated
   const meta = el("ul", "repo-meta");
