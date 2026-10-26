@@ -21,12 +21,12 @@ const QUOTES_PER_REQUEST = 30;
 
 // Words that make a quote motivational
 const MOTIVATIONAL_WORDS = [
-  "success", "succeed", "dream", "goal", "courage", "believe", "achieve",
-  "possible", "give up", "persist", "effort", "hard work", "motivat",
-  "inspir", "try", "fail", "start", "begin", "future", "opportunit",
-  "strength", "strong", "determin", "confiden", "win", "progress",
-  "potential", "ambition", "discipline", "action", "overcome", "challenge",
-  "great", "passion", "hope", "growth", "learn", "brave", "fear"
+  "success", "succeed", "dream", "goal", "courage", "courageous", "believe in",
+  "achieve", "achievement", "never give up", "give up", "persist", "persever",
+  "hard work", "motivat", "inspir", "failure", "fail", "opportunit", "determin",
+  "confiden", "potential", "ambition", "discipline", "overcome", "greatness",
+  "passion", "brave", "impossible", "possible", "keep going", "don't quit",
+  "never quit", "your best", "work hard", "strive", "excellence"
 ];
 
 // One regular expression that matches any of the words above
